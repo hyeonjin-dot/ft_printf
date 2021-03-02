@@ -4,28 +4,33 @@ int	ft_printf(const char *str, ...)
 {
 	va_list	ap;
 	int		i;
-	int		num;
 	int		len;
 	char	*tmp;
+	char	tt;
 	
 	i = 0;
-	num = 0;
 	va_start(ap, str);
 	while (str[i])
 	{
 		if (str[i] == '%')
 		{
-			if (str[i + 1] != '%')
-				num++;
+			if (str[i + 1] == 's')
+			{
+				  tmp = va_arg(ap, char*);
+				  len = ft_strlen(tmp);
+				  write(1, (tmp), len);
+			}
+			if (str[i + 1] == 'c')
+			{
+				tt = va_arg(ap, char);
+				write(1, &tt, 1);
+			}
+			else
+				write(1, "%", 1);
+			i = i + 2;
+			continue;
 		}
-		i++;
-	}
-	i = 0;
-	while (i < num)
-	{
-		tmp = va_arg(ap, char*);
-		len = ft_strlen(tmp);
-		write(1, (tmp), len);
+		write(1, &str[i], 1);
 		i++;
 	}
 	return (0);
@@ -33,6 +38,5 @@ int	ft_printf(const char *str, ...)
 
 int	main()
 {
-	printf("%2s\n","hello");
-	ft_printf("%s %s", "AS", "cd");
+	ft_printf("%c3%s", 'h', "world");
 }
