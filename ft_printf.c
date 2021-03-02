@@ -1,5 +1,10 @@
 #include "header.h"
 
+void	printf_s()
+{
+
+}
+
 int	ft_printf(const char *str, ...)
 {
 	va_list	ap;
