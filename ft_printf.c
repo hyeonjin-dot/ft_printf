@@ -22,10 +22,10 @@ int	ft_printf(const char *str, ...)
 			}
 			if (str[i + 1] == 'c')
 			{
-				tt = va_arg(ap, char);
+				tt = va_arg(ap, int);
 				write(1, &tt, 1);
 			}
-			else
+			if (str[i + 1] == '%')
 				write(1, "%", 1);
 			i = i + 2;
 			continue;
