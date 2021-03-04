@@ -1,15 +1,22 @@
+
+
 #include "header.h"
 
-void	printf_s()
+void	printf_s(va_list ap)
 {
-
+	char	*tmp;
+	int		len;
+	
+	tmp = va_arg(ap, char*);
+	len = ft_strlen(tmp);
+	write(1, tmp, len);
 }
 
 int	ft_printf(const char *str, ...)
 {
 	va_list	ap;
 	int		i;
-	int		len;
+	int		num;
 	char	*tmp;
 	char	tt;
 	
@@ -21,14 +28,18 @@ int	ft_printf(const char *str, ...)
 		{
 			if (str[i + 1] == 's')
 			{
-				  tmp = va_arg(ap, char*);
-				  len = ft_strlen(tmp);
-				  write(1, (tmp), len);
+				printf_s(ap);
 			}
 			if (str[i + 1] == 'c')
 			{
 				tt = va_arg(ap, int);
 				write(1, &tt, 1);
+			}
+			if (str[i + 1] == 'd')
+			{
+				num = va_arg(ap, int);
+				tmp = ft_itoa(num);
+				write(1, tmp, ft_strlen(tmp));
 			}
 			if (str[i + 1] == '%')
 				write(1, "%", 1);
@@ -43,5 +54,5 @@ int	ft_printf(const char *str, ...)
 
 int	main()
 {
-	ft_printf("%c3%s", 'h', "world");
+	ft_printf("%c%s %d", 'h', "world", -22);
 }
