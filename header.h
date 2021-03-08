@@ -8,6 +8,7 @@
 
 int		ft_printf(const char *str, ...);
 int		ft_strlen(const char *str);
+int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
 
 #endif
