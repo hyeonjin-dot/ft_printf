@@ -12,7 +12,7 @@ int		star(va_list ap)
 	return (num);
 }
 
-int	printf_s(va_list ap, int wid)
+int	printf_s(va_list ap, int wid, int zero) // 07같은 경우 인지하지 못함
 {
 	char	*tmp;
 	int		len;
@@ -22,11 +22,14 @@ int	printf_s(va_list ap, int wid)
 	wid = wid - len;
 	while (wid > 0)
 	{
-		write(1, " ", 1);
+		if (zero == 0)
+			write(1, " ", 1);
+		else
+			write(1, "0", 1);
 		wid--;
 	}
 	write(1, tmp, len);
-	wid = 0;
+	wid = -1;
 	return (wid);
 }
 
@@ -36,31 +39,38 @@ int	ft_printf(const char *str, ...)
 	int		i;
 	int		num;
 	int		wid;
+	int		zero;
 	char	*tmp;
 	char	tt;
 	
 	i = 0;
-	wid = 0;
+	wid = -1;
+	zero = 0;
 	va_start(ap, str);
 	while (str[i])
 	{
-		if (str[i] == '%' || wid > 0)
+		if (str[i] == '%' || wid >= 0)
 		{
-			i++;
+			if (str[i] == '%')
+				i++;
 			if (str[i] == '%')
 				 write(1, "%", 1);
 			if (str[i] == '*')
 				num = star(ap);
 			if (str[i] >= '0' && str[i] <= '9')
 			{
+				if (wid < 0)
+					wid = 0;
 				wid = wid * 10;
+				if (str[i] == '0' && wid < 10)
+					zero++;
 				wid = wid + ft_atoi(&str[i]);
 				i++;
 				continue ;
 			}
 			if (str[i] == 's')
 			{
-				wid = printf_s(ap, wid);
+				wid = printf_s(ap, wid, zero);
 			}
 			if (str[i] == 'c')
 			{
@@ -95,7 +105,7 @@ int	ft_printf(const char *str, ...)
 			}
 			//x(16 little) X(16 big)
 			i++;
-			continue;
+			continue ;
 		}
 		write(1, &str[i], 1);
 		i++;
@@ -111,5 +121,5 @@ int	main()
 	num = 10;
 	tmp = &num;
 
-	ft_printf("s:%11shi", "world");
+	ft_printf("s:%011s:", "world");
 }
