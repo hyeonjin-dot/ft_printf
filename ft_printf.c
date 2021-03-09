@@ -53,7 +53,7 @@ int	ft_printf(const char *str, ...)
 		{
 			if (str[i] == '%')
 				i++;
-			if (str[i] == '%')
+			if (str[i - 1] == '%' && str[i] == '%')
 				 write(1, "%", 1);
 			if (str[i] == '*')
 				num = star(ap);
@@ -62,11 +62,9 @@ int	ft_printf(const char *str, ...)
 				if (wid < 0)
 					wid = 0;
 				wid = wid * 10;
-				if (str[i] == '0' && wid < 10)
+				if (str[i] == '0' && wid == 0)
 					zero++;
 				wid = wid + ft_atoi(&str[i]);
-				i++;
-				continue ;
 			}
 			if (str[i] == 's')
 			{
@@ -104,10 +102,9 @@ int	ft_printf(const char *str, ...)
 				write(1, &tmp, ft_strlen(tmp));
 			}
 			//x(16 little) X(16 big)
-			i++;
-			continue ;
 		}
-		write(1, &str[i], 1);
+		else
+			write(1, &str[i], 1);
 		i++;
 	}
 	return (0);
