@@ -12,7 +12,7 @@ int		star(va_list ap)
 	return (num);
 }
 
-int	printf_s(va_list ap, int wid, int zero) // 07같은 경우 인지하지 못함
+void	printf_s(va_list ap, int wid, int zero) // 07같은 경우 인지하지 못함
 {
 	char	*tmp;
 	int		len;
@@ -29,8 +29,6 @@ int	printf_s(va_list ap, int wid, int zero) // 07같은 경우 인지하지 못�
 		wid--;
 	}
 	write(1, tmp, len);
-	wid = -1;
-	return (wid);
 }
 
 int	ft_printf(const char *str, ...)
@@ -44,12 +42,11 @@ int	ft_printf(const char *str, ...)
 	char	tt;
 	
 	i = 0;
-	wid = -1;
 	zero = 0;
 	va_start(ap, str);
 	while (str[i])
 	{
-		if (str[i] == '%' || wid >= 0)
+		if (str[i] == '%')
 		{
 			if (str[i] == '%')
 				i++;
@@ -59,16 +56,15 @@ int	ft_printf(const char *str, ...)
 				num = star(ap);
 			if (str[i] >= '0' && str[i] <= '9')
 			{
-				if (wid < 0)
-					wid = 0;
-				wid = wid * 10;
-				if (str[i] == '0' && wid == 0)
+				if (str[i] == '0')
 					zero++;
-				wid = wid + ft_atoi(&str[i]);
+				wid = ft_atoi(&str[i]);
+				while (str[i] >= '0' && str[i] <= '9')
+					i++;
 			}
 			if (str[i] == 's')
 			{
-				wid = printf_s(ap, wid, zero);
+				printf_s(ap, wid, zero);
 			}
 			if (str[i] == 'c')
 			{
