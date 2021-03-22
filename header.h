@@ -6,6 +6,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+typedef struct  elements
+{
+    int		minus;
+    int		num[2];
+    int		dot;
+    int		zero;
+	char	form;
+}   new_elements;
+
 int		ft_printf(const char *str, ...);
 int		ft_strlen(const char *str);
 int		ft_atoi(const char *str);

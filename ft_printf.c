@@ -2,102 +2,119 @@
 
 #include "header.h"
 
-int		star(va_list ap)
+new_elements	reset_elements(new_elements ele)
+{
+	ele.minus = 0;
+    ele.num[0] = -1;
+    ele.num[1] = -1;
+    ele.dot = 0;
+    ele.zero = 0;
+	ele.form = 'q';
+	return (ele);
+}
+
+int		check_form(char c)
+{
+	if (c == 'c' || c == 's' || c == 'd')
+		return (1);
+	else if (c == 'i' || c == 'x' || c == 'X')
+		return (1);
+	else if (c == 'u' || c == 'p')
+		return (1);
+	else
+		return (0);
+}
+
+new_elements	star(va_list ap, new_elements ele)
 {
 	int	num;
 
 	num = va_arg(ap, int);
 	if (num < 0)
 		num = -num;
-	return (num);
+	if (ele.num[0] == -1)
+		ele.num[0] = num;
+	else
+		ele.num[1] = num;
+	return (ele);
 }
 
-void	printf_s(va_list ap, int wid, int zero) // 07같은 경우 인지하지 못함
+void	printf_s(va_list ap, new_elements ele)
 {
 	char	*tmp;
 	int		len;
-	
+
 	tmp = va_arg(ap, char*);
 	len = ft_strlen(tmp);
-	wid = wid - len;
-	while (wid > 0)
+	ele.num[0] = ele.num[0] - len;
+	if (ele.minus == 1)
 	{
-		if (zero == 0)
-			write(1, " ", 1);
-		else
-			write(1, "0", 1);
-		wid--;
+		write(1, tmp, len);
+		while ((ele.num[0])-- > 0)
+			 write(1, " ", 1);
 	}
-	write(1, tmp, len);
+	else
+	{
+		while (ele.num[0] > 0)
+		{
+			if (ele.zero == 1)
+				write(1, "0", 1);
+			else
+				write(1, " ", 1);
+			(ele.num[0])--;
+		}
+		write(1, tmp, len);
+	}
+}
+
+void	printf_form(va_list ap, new_elements ele)
+{
+	if (ele.form == 's')
+		printf_s(ap, ele);
 }
 
 int	ft_printf(const char *str, ...)
 {
-	va_list	ap;
-	int		i;
-	int		num;
-	int		wid;
-	int		zero;
-	char	*tmp;
-	char	tt;
-	
+	va_list ap;
+	new_elements	ele;
+	int     i;
+	int     j;
+
 	i = 0;
-	zero = 0;
+	j = 0;
+	ele = reset_elements(ele);
 	va_start(ap, str);
 	while (str[i])
 	{
 		if (str[i] == '%')
 		{
-			if (str[i] == '%')
+			i++;
+			while (check_form(str[i]) == 0 && str[i] != '%')
+			{
+				if (str[i] == '*')
+					ele = star(ap, ele);
+				if (str[i] == '-')
+					ele.minus = 1;
+				if (str[i] >= '0' && str[i] <= '9')
+				{
+					if (str[i] == '0')
+						ele.zero++;
+					ele.num[j++] = ft_atoi(&str[i]);
+					while (str[i] >= '0' && str[i] <= '9')
+						i++;
+					i--;
+				}
+				if (str[i] == '.')
+					ele.dot = 1;
 				i++;
-			if (str[i - 1] == '%' && str[i] == '%')
-				 write(1, "%", 1);
-			if (str[i] == '*')
-				num = star(ap);
-			if (str[i] >= '0' && str[i] <= '9')
-			{
-				if (str[i] == '0')
-					zero++;
-				wid = ft_atoi(&str[i]);
-				while (str[i] >= '0' && str[i] <= '9')
-					i++;
 			}
-			if (str[i] == 's')
+			if (str[i] == '%')
 			{
-				printf_s(ap, wid, zero);
+				write(1, "%", 1);
+				continue ;
 			}
-			if (str[i] == 'c')
-			{
-				tt = va_arg(ap, int);
-				write(1, &tt, 1);
-			}
-			if (str[i] == 'd' || str[i] == 'i')
-			{
-				num = va_arg(ap, int);
-				tmp = ft_itoa(num);
-				write(1, tmp, ft_strlen(tmp));
-			}
-			if (str[i] == 'p') // 수정 필요
-			{
-				tmp = va_arg(ap, char*);
-				write(1, &tmp, ft_strlen(tmp));
-			}
-			if (str[i] == 'x' || str[i] == 'X')
-			{
-
-			}
-			if (str[i] == 'u')
-			{
-				num = va_arg(ap, long long);
-				if (num < 0)
-					num = 4294967295 + num + 1;
-				tmp = ft_itoa(num / 1000000000);
-				if (tmp != 0)
-					write(1, &tmp, ft_strlen(tmp));
-				tmp = ft_itoa(num % 1000000000);
-				write(1, &tmp, ft_strlen(tmp));
-			}
-			//x(16 little) X(16 big)
+			ele.form = str[i];
+			printf_form(ap, ele);
 		}
 		else
 			write(1, &str[i], 1);
@@ -114,5 +131,5 @@ int	main()
 	num = 10;
 	tmp = &num;
 
-	ft_printf("s:%011s:", "world");
+	ft_printf("%*s",7, "world");
 }
