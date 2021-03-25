@@ -46,6 +46,15 @@ void	printf_s(va_list ap, new_elements ele)
 
 	tmp = va_arg(ap, char*);
 	len = ft_strlen(tmp);
+	if (ele.dot != 0)
+	{
+		if (ele.num[1] == -1)
+		{
+			ele.num[1] = ele.num[0];
+			ele.num[0] = -1;
+		}
+		len = (len > ele.num[1]) ? ele.num[1] : len;
+	}
 	ele.num[0] = ele.num[0] - len;
 	if (ele.minus == 1)
 	{
@@ -67,10 +76,82 @@ void	printf_s(va_list ap, new_elements ele)
 	}
 }
 
+int		printf_di_minus(va_list ap, new_elements ele)
+{
+	int		num;
+	int		len;
+	char	*tmp;
+
+	num = va_arg(ap, int);
+	tmp = ft_itoa(num);
+	len = ft_strlen(tmp);
+	if (ele.dot == 2)
+	{
+		ele.num[1] = ele.num[0];
+		ele.num[0] = -1;
+	}
+	ele.num[0] = ele.num[0] - (ele.num[1] == -1 ? len : ele.num[1]);
+	if (num < 0)
+	{
+		write(1, "-", 1);
+		tmp++;
+		len--;
+	}
+	ele.num[1] = ele.num[1] - len;
+	while (ele.num[1]-- > 0)
+		write(1, "0", 1);
+	write(1, tmp, len);
+	while (ele.num[0]-- > 0)
+		write(1, " ", 1);
+	return (0);
+}
+
+int		printf_di(va_list ap, new_elements ele)
+{
+	int		num;
+	int		len;
+	char	*tmp;
+
+	if (ele.minus == 1)
+		return (printf_di_minus(ap, ele));
+	num = va_arg(ap, int);
+	tmp = ft_itoa(num);
+	len = ft_strlen(tmp);
+	if (ele.dot == 2)
+	{
+		ele.num[1] = ele.num[0];
+		ele.num[0] = -1;
+	}
+	ele.num[0] = ele.num[0] - (ele.num[1] == -1 ? len : ele.num[1]);
+	while (ele.num[0]-- > 0)
+		write(1, " ", 1);
+	if (num < 0)
+	{
+		write(1, "-", 1);
+		tmp++;
+		len--;
+	}
+	ele.num[1] = ele.num[1] - len;
+	while (ele.num[1]-- > 0)
+		write(1, "0", 1);
+	write(1, tmp, len);
+	return (0);
+}
+
+void	printf_c(va_list ap, new_elements ele)
+{
+	//화이팅~~
+}
+
 void	printf_form(va_list ap, new_elements ele)
 {
 	if (ele.form == 's')
 		printf_s(ap, ele);
+	if (ele.form == 'd' || ele.form == 'i')
+		printf_di(ap, ele);
+	//if (ele.form == 'c')
+		//printf_c(ap, ele);
+
 }
 
 int	ft_printf(const char *str, ...)
@@ -93,19 +174,21 @@ int	ft_printf(const char *str, ...)
 			{
 				if (str[i] == '*')
 					ele = star(ap, ele);
-				if (str[i] == '-')
+				else if (str[i] == '-')
 					ele.minus = 1;
-				if (str[i] >= '0' && str[i] <= '9')
+				else if (str[i] >= '0' && str[i] <= '9')
 				{
 					if (str[i] == '0')
 						ele.zero++;
-					ele.num[j++] = ft_atoi(&str[i]);
+					ele.num[j] == -1 ? j : j++;
+					ele.num[j] = ft_atoi(&str[i]);
+					j == 0 ? j++ : j ;
 					while (str[i] >= '0' && str[i] <= '9')
 						i++;
 					i--;
 				}
-				if (str[i] == '.')
-					ele.dot = 1;
+				else if (str[i] == '.')
+					ele.dot = (ele.num[0] == -1 ? 2: 1);
 				i++;
 			}
 			if (str[i] == '%')
@@ -125,11 +208,6 @@ int	ft_printf(const char *str, ...)
 
 int	main()
 {
-	int num;
-	int *tmp;
-
-	num = 10;
-	tmp = &num;
-
-	ft_printf("%*s",7, "world");
+	ft_printf("%.4d", -2);
 }
+

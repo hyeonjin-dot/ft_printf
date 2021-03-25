@@ -3,6 +3,6 @@
 int	main()
 {
 	printf("hellohello\n");
-	printf("%*s:\n",7,"hello");
+	printf("%7.4d:\n", -2);
 
 }
