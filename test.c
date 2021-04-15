@@ -1,8 +1,13 @@
 #include <stdio.h>
+#include <string.h>
 
 int	main()
 {
-	printf("hellohello\n");
-	printf("%7.4d:\n", -2);
+	int*	data;
+	char	tmp;
 
+	tmp = 'a';
+	data = &tmp;
+	printf("%.14p:\n", data);
+	printf("%-03x\n", 10);
 }

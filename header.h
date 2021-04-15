@@ -5,20 +5,18 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "libft/libft.h"
 
 
-typedef struct  elements
+typedef struct  s_elements
 {
     int		minus;
     int		num[2];
     int		dot;
     int		zero;
 	char	form;
-}   new_elements;
+}   t_ele;
 
 int		ft_printf(const char *str, ...);
-int		ft_strlen(const char *str);
-int		ft_atoi(const char *str);
-char	*ft_itoa(int n);
 
 #endif

@@ -6,13 +6,30 @@
 #    By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/04 11:53:24 by hyejung           #+#    #+#              #
-#    Updated: 2021/03/04 11:55:07 by hyejung          ###   ########.fr        #
+#    Updated: 2021/04/05 21:24:18 by jeonghyeo        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 RM		=	rm -f
 NAME	=	libftprintf.a
+LIBFT	=	libft
+LIBFT_A	=	libft.a
 
+SRCS		= ./ft_printf.c 
+OBJS		= $(SRCS:.c=.o)
+INCS		= .
+RM			= rm -f
+LIBC		= ar rc
+CC			= gcc
+CFLAGS		= -Wall -Wextra -Werror
+
+.c.o :
+	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) -I$(INCS)
+
+$(NAME) : $(OBJS)
+	make all -C $(LIBFT)/
+	cp $(LIBFT)/$(LIBFT_A) $(NAME)
+	$(LIBC) $(NAME) $(OBJS)
 
 all		:	$(NAME)
 
