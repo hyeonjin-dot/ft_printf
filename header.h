@@ -17,6 +17,8 @@ typedef struct  s_elements
 	char	form;
 }   t_ele;
 
+int		printf_di(va_list ap, t_ele ele);
+int		printf_u(va_list ap, t_ele ele);
 int		ft_printf(const char *str, ...);
 
 #endif

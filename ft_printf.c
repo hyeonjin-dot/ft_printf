@@ -161,6 +161,8 @@ int		printf_p(va_list ap, t_ele ele) // - m.n 0x 출력해주기
 	if (ele.minus == 1)
 		return (printf_p_minus(ap, ele));
 	num = va_arg(ap, long long);
+	if (num == 0)
+		return (write(1, "0x0", 3));
 	tmp = printf_p_cir(num);
 	len = ft_strlen(tmp);
 	if (ele.dot == 2)
@@ -180,229 +182,6 @@ int		printf_p(va_list ap, t_ele ele) // - m.n 0x 출력해주기
 	return (0);
 }
 
-char	*printf_x_cir(unsigned int num, char c)
-{
-	char    *tmp;
-	char    *str;
-	int     num_t;
-	int     i;
-	int     j;
-
-	i = 0;
-	tmp = (char*)malloc(sizeof(9));
-	while (num != 0)
-	{
-		num_t = num % 16;
-		if (num_t < 10)
-			tmp[i++] = num_t + '0';
-		else
-		{
-			j = ((c == 'x') ? 'a' : 'A');
-			tmp[i++] = j + num_t - 10;
-		}
-		num = num / 16;
-	}
-	tmp[i--] = '\0';
-	str = (char*)malloc(sizeof(i + 1));
-	if (!str)
-		return (0);
-	j = 0;
-	while (i >= 0)
-		str[j++] = tmp[i--];
-	str[j] = '\0';
-	return (str);
-}
-int		printf_x_minus(va_list ap, t_ele ele)
-{
-	unsigned int     num;
-    int     len;
-    char    		*tmp;
-
-    num = va_arg(ap, int);
-	if (num < 0)
-		num = 4294967295 + num + 1;
-    tmp = printf_x_cir(num, ele.form);
-    len = ft_strlen(tmp);
-    if (ele.dot == 2)
-    {
-        ele.num[1] = ele.num[0];
-        ele.num[0] = -1;
-    }
-    ele.num[0] = ele.num[0] - (ele.num[1] == -1 ? len : ele.num[1]);
-	ele.num[1] = ele.num[1] - len;
-    while (ele.num[1]-- > 0)
-        write(1, "0", 1);
-    write(1, tmp, len);
-    while (ele.num[0]-- > 0)
-        write(1, " ", 1);
-    return (0);
-}
-
-int		printf_x(va_list ap, t_ele ele)
-{
-	unsigned int	num;
-	int     len;
-	char    *tmp;
-
-	if (ele.minus == 1)
-		return (printf_x_minus(ap, ele));
-	num = va_arg(ap, int);
-	if (num < 0)
-		num = 4294967295 + num + 1;
-	tmp = printf_x_cir(num, ele.form);
-	len = ft_strlen(tmp);
-	if (ele.dot == 2)
-	{
-		ele.num[1] = ele.num[0];
-		ele.num[0] = -1;
-	}
-	ele.num[0] = ele.num[0] - (ele.num[1] == -1 ? len : ele.num[1]);
-	while (ele.zero == 0 && ele.num[0]-- > 0)
-		write(1, " ", 1);
-	ele.num[1] = ele.num[1] - len;
-	while (ele.num[1]-- > 0 || (ele.zero == 1 && ele.num[0]-- > 0))
-		write(1, "0", 1);
-	write(1, tmp, len);
-	free(tmp);
-	return (0);
-}
-
-int		printf_u_cir_minus(t_ele ele, unsigned int num, unsigned int len, char *tmp)
-{
-	if (ele.dot == 2)
-	{
-		ele.num[1] = ele.num[0];
-		ele.num[0] = -1;
-	}
-	ele.num[0] = ele.num[0] - (ele.num[1] == -1 ? len : ele.num[1]);
-	if (num < 0)
-	{
-		write(1, "-", 1);
-		tmp++;
-		len--;
-	}
-	ele.num[1] = ele.num[1] - len;
-	while (ele.num[1]-- > 0)
-		write(1, "0", 1);
-	write(1, tmp, len);
-	while (ele.num[0]-- > 0)
-		write(1, " ", 1);
-	return (0);
-}
-
-int		printf_u_cir(t_ele ele, unsigned int num, unsigned int len, char *tmp)
-{
-	if (ele.minus == 1)
-		return (printf_u_cir_minus(ele, num, len, tmp));
-	if (ele.dot == 2)
-	{
-		ele.num[1] = ele.num[0];
-		ele.num[0] = -1;
-	}
-	ele.num[0] = ele.num[0] - (ele.num[1] == -1 ? len : ele.num[1]);
-	while (ele.zero == 0 && ele.num[0]-- > 0)
-		write(1, " ", 1);
-	if (num < 0)
-	{
-		write(1, "-", 1);
-		tmp++;
-		len--;
-	}
-	ele.num[1] = ele.num[1] - len;
-	while (ele.num[1]-- > 0 || (ele.zero == 1 && ele.num[0]-- > 0))
-		write(1, "0", 1);
-	write(1, tmp, len);
-	return (0);
-}
-
-int		printf_u(va_list ap, t_ele ele)
-{
-	unsigned int	num;
-	unsigned int	num_1;
-	unsigned int	len;
-	char			*tmp;
-	char			*tmp_1;
-
-	num = va_arg(ap, int);
-	if (num > 2147483647)
-	{
-		len = 10;
-		num_1 = num / 1000;
-		num = num % 1000;
-		tmp = ft_itoa((int)num_1);
-		tmp_1 = ft_itoa((int)num);
-		tmp = ft_strjoin(tmp, tmp_1);
-	}
-	else
-	{
-		tmp = ft_itoa((int)num);
-		len = ft_strlen(tmp);
-	}
-	printf_u_cir(ele, num, len, tmp);
-	return(0);
-}
-
-int		printf_di_minus(va_list ap, t_ele ele) // -플래그가 존재하는 경우
-{
-	int		num;
-	int		len;
-	char	*tmp;
-
-	num = va_arg(ap, int);
-	tmp = ft_itoa(num);
-	len = ft_strlen(tmp);
-	if (ele.dot == 2)
-	{
-		ele.num[1] = ele.num[0];
-		ele.num[0] = -1;
-	}
-	ele.num[0] = ele.num[0] - (ele.num[1] == -1 ? len : ele.num[1]);
-	if (num < 0)
-	{
-		write(1, "-", 1);
-		tmp++;
-		len--;
-	}
-	ele.num[1] = ele.num[1] - len;
-	while (ele.num[1]-- > 0)
-		write(1, "0", 1);
-	write(1, tmp, len);
-	while (ele.num[0]-- > 0)
-		write(1, " ", 1);
-	return (0);
-}
-
-int		printf_di(va_list ap, t_ele ele)
-{
-	int		num;
-	int		len;
-	char	*tmp;
-
-	if (ele.minus == 1)
-		return (printf_di_minus(ap, ele));
-	num = va_arg(ap, int);
-	tmp = ft_itoa(num);
-	len = ft_strlen(tmp);
-	if (ele.dot == 2)
-	{
-		ele.num[1] = ele.num[0];
-		ele.num[0] = -1;
-	}
-	ele.num[0] = ele.num[0] - (ele.num[1] == -1 ? len : ele.num[1]);
-	while (ele.zero == 0 && ele.num[0]-- > 0)
-		write(1, " ", 1);
-	if (num < 0)
-	{
-		write(1, "-", 1);
-		tmp++;
-		len--;
-	}
-	ele.num[1] = ele.num[1] - len;
-	while (ele.num[1]-- > 0 || (ele.zero == 1 && ele.num[0]-- > 0))
-		write(1, "0", 1);
-	write(1, tmp, len);
-	return (0);
-}
 
 void	printf_c(va_list ap, t_ele ele)
 {
@@ -494,6 +273,7 @@ int	ft_printf(const char *str, ...)
 	return (0);
 }
 
+// main 함수 
 int	main()
 {
 	int	*poi;
@@ -501,6 +281,7 @@ int	main()
 
 	num = 5;
 	poi = &num;
-	printf("%020p:\n", poi);
-	ft_printf("%020p:\n", poi);
+	printf("%p:\n", NULL);
+	ft_printf("%p:\n", poi);
+	ft_printf("%-5.3d:\n", 32);
 }
