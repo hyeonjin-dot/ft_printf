@@ -19,6 +19,10 @@ typedef struct  s_elements
 
 int		printf_di(va_list ap, t_ele ele);
 int		printf_u(va_list ap, t_ele ele);
+int		printf_x(va_list ap, t_ele ele);
+int		printf_p(va_list ap, t_ele ele);
+int		printf_s(va_list ap, t_ele ele);
+int		printf_c(va_list ap, t_ele ele);
 int		ft_printf(const char *str, ...);
 
 #endif
