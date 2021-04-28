@@ -6,7 +6,7 @@
 #    By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/04 11:53:24 by hyejung           #+#    #+#              #
-#    Updated: 2021/04/05 21:24:18 by jeonghyeo        ###   ########.fr        #
+#    Updated: 2021/04/23 19:40:13 by jeonghyeo        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,11 @@ NAME	=	libftprintf.a
 LIBFT	=	libft
 LIBFT_A	=	libft.a
 
-SRCS		= ./ft_printf.c 
+SRCS		= ./ft_printf.c\
+			  ./ft_printf_sc.c\
+			  ./ft_printf_nbr.c\
+			  ./ft_printf_p.c\
+			  ./ft_printf_x.c
 OBJS		= $(SRCS:.c=.o)
 INCS		= .
 RM			= rm -f

@@ -55,6 +55,17 @@ char    *printf_x_cir(unsigned int num, char c)
      return (tmp);
  }
 
+/*
+     if (ele.dot == 2)
+     {
+         if (ele.num[1] == -1)
+         {
+             ele.num[1] = ele.num[0];
+             ele.num[0] = -1;
+         }
+         len = (len > ele.num[1]) ? ele.num[1] : len;
+     }
+*/
 int	main()
 {
 	int*	data;
@@ -63,6 +74,6 @@ int	main()
 	tmp = printf_x_cir(123, 'x');
 	printf("%s:\n", tmp);
 	tmp = printf_p_cir(12345);
-	printf("%s\n", tmp);
+	printf("%.5s\n", "hi");
 	printf("%i\n", 0123);
 }

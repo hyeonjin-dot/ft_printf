@@ -2,8 +2,10 @@
 
 #include "header.h"
 
-t_ele	reset_elements(t_ele ele)
+t_ele	reset_elements(void)
 {
+	t_ele	ele;
+
 	ele.minus = 0;
     ele.num[0] = -1;
     ele.num[1] = -1;
@@ -64,7 +66,7 @@ int	ft_printf(const char *str, ...)
 
 	i = 0;
 	j = 0;
-	ele = reset_elements(ele);
+	ele = reset_elements();
 	va_start(ap, str);
 	while (str[i])
 	{
@@ -107,7 +109,7 @@ int	ft_printf(const char *str, ...)
 	return (0);
 }
 
-// main 함수 
+/*main 함수 
 int	main()
 {
 	int	*poi;
@@ -115,7 +117,7 @@ int	main()
 
 	num = 5;
 	poi = &num;
-	printf("%p:\n", NULL);
+	printf("%s:\n", NULL);
 	ft_printf("%paa:\n", poi);
 	ft_printf("%-5.3d33:\n", 32);
-}
+}*/
