@@ -122,7 +122,9 @@ int	printf_di(va_list ap, t_ele ele)
 		len--;
 	}
 	ele.num[1] = ele.num[1] - len;
-	while (ele.num[1]-- > 0 || ((ele.dot == 2 || ele.zero == 1) && ele.num[0]-- > 0))
+	while (ele.num[1]-- > 0)
+		write(1, "0", 1);
+	while ((ele.dot == 2 || ele.zero == 1) && ele.num[0]-- > 0)
 		write(1, "0", 1);
 	write(1, tmp, len);
 	return (0);

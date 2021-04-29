@@ -56,7 +56,9 @@ int		printf_p(va_list ap, t_ele ele)
 	long long	num;
 	char		*tmp;
 	int			len;
+	int			ch;
 
+	ch = 0;
 	if (ele.minus == 1)
 		return (printf_p_minus(ap, ele));
 	num = va_arg(ap, long long);
@@ -69,7 +71,9 @@ int		printf_p(va_list ap, t_ele ele)
 		write(1, " ", 1);
 	write(1, "0x", 2);
 	ele.num[1] = ele.num[1] - 14;
-	while (ele.num[1]-- > 0 || ((ele.dot == 2 || ele.zero == 1) && ele.num[0]-- > 0))
+	if (ele.dot == 2 || ele.zero == 1)
+		ch = 1;
+	while (ele.num[1]-- > 0 || ((ch == 1) && ele.num[0]-- > 0))
 		write(1, "0", 1);
 	write(1, tmp, len);
 	free(tmp);
