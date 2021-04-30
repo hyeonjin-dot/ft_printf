@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf_x.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/30 18:27:46 by hyejung           #+#    #+#             */
+/*   Updated: 2021/04/30 19:21:28 by hyejung          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "header.h"
 
@@ -29,7 +40,7 @@ char	*printf_x_cir(unsigned int num, char c)
 	return (tmp + i);
 }
 
-int		printf_x_minus(va_list ap, t_ele ele)
+int		printf_x_minus(va_list ap, t_ele *ele)
 {
 	unsigned int	num;
 	int				len;
@@ -38,46 +49,46 @@ int		printf_x_minus(va_list ap, t_ele ele)
 	num = va_arg(ap, int);
 	if (num < 0)
 		num = 4294967295 + num + 1;
-	tmp = printf_x_cir(num, ele.form);
+	tmp = printf_x_cir(num, ele->form);
 	len = ft_strlen(tmp);
-	if (ele.dot == 2)
+	if (ele->dot == 2)
 	{
-		ele.num[1] = ele.num[0];
-		ele.num[0] = -1;
+		ele->num[1] = ele->num[0];
+		ele->num[0] = -1;
 	}
-	ele.num[0] = ele.num[0] - (ele.num[1] == -1 ? len : ele.num[1]);
-	ele.num[1] = ele.num[1] - len;
-	while (ele.num[1]-- > 0)
+	ele->num[0] = ele->num[0] - (ele->num[1] == -1 ? len : ele->num[1]);
+	ele->num[1] = ele->num[1] - len;
+	while (ele->num[1]-- > 0)
 		write(1, "0", 1);
 	write(1, tmp, len);
-	while (ele.num[0]-- > 0)
+	while (ele->num[0]-- > 0)
 		write(1, " ", 1);
 	return (0);
 }
 
-int		printf_x(va_list ap, t_ele ele)
+int		printf_x(va_list ap, t_ele *ele)
 {
 	unsigned int	num;
 	int				len;
 	char			*tmp;
 
-	if (ele.minus == 1)
+	if (ele->minus == 1)
 		return (printf_x_minus(ap, ele));
 	num = va_arg(ap, int);
 	if (num < 0)
 		num = 4294967295 + num + 1;
-	tmp = printf_x_cir(num, ele.form);
+	tmp = printf_x_cir(num, ele->form);
 	len = ft_strlen(tmp);
-	if (ele.dot == 2)
+	if (ele->dot == 2)
 	{
-		ele.num[1] = ele.num[0];
-		ele.num[0] = -1;
+		ele->num[1] = ele->num[0];
+		ele->num[0] = -1;
 	}
-	ele.num[0] = ele.num[0] - (ele.num[1] == -1 ? len : ele.num[1]);
-	while (ele.zero == 0 && ele.num[0]-- > 0)
+	ele->num[0] = ele->num[0] - (ele->num[1] == -1 ? len : ele->num[1]);
+	while (ele->zero == 0 && ele->num[0]-- > 0)
 		write(1, " ", 1);
-	ele.num[1] = ele.num[1] - len;
-	while (ele.num[1]-- > 0 || (ele.zero == 1 && ele.num[0]-- > 0))
+	ele->num[1] = ele->num[1] - len;
+	while (ele->num[1]-- > 0 || (ele->zero == 1 && ele->num[0]-- > 0))
 		write(1, "0", 1);
 	write(1, tmp, len);
 	free(tmp);

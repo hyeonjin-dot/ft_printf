@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/30 18:26:44 by hyejung           #+#    #+#             */
+/*   Updated: 2021/04/30 19:32:06 by hyejung          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "header.h"
 
@@ -30,17 +41,17 @@ void	star(va_list ap, t_ele *ele)
 void	printf_form(va_list ap, t_ele *ele)
 {
 	if (ele->form == 's')
-		printf_s(ap, *ele);
+		printf_s(ap, ele);
 	if (ele->form == 'd' || ele->form == 'i')
-		printf_di(ap, *ele);
+		printf_di(ap, ele);
 	if (ele->form == 'c')
-		printf_c(ap, *ele);
+		printf_c(ap, ele);
 	if (ele->form == 'u')
-		printf_u(ap, *ele);
+		printf_u(ap, ele);
 	if (ele->form == 'x' || ele->form == 'X')
-		printf_x(ap, *ele);
+		printf_x(ap, ele);
 	if (ele->form == 'p')
-		printf_p(ap, *ele);
+		printf_p(ap, ele);
 }
 
 int		ft_check(char *str, int i, t_ele *ele, va_list ap)
@@ -100,8 +111,8 @@ int		ft_printf(const char *str, ...)
 	return (0);
 }
 
-/*main 함수 */
-int	main()
+//main 함수 
+/*int	main()
 {
 	int	*poi;
 	int	num;
@@ -110,6 +121,6 @@ int	main()
 	poi = &num;
 	printf("%p:\n", poi);
 	ft_printf("%p:aa\n", poi);
-	ft_printf("%s:\n", NULL);
+//	ft_printf("%s:\n", NULL);
 	ft_printf("%-5d33:\n", 32);
-}
+}*/

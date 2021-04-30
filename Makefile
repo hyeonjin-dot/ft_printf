@@ -6,7 +6,7 @@
 #    By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/04 11:53:24 by hyejung           #+#    #+#              #
-#    Updated: 2021/04/23 19:40:13 by jeonghyeo        ###   ########.fr        #
+#    Updated: 2021/04/30 18:52:48 by hyejung          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ SRCS		= ./ft_printf.c\
 			  ./ft_printf_sc.c\
 			  ./ft_printf_nbr.c\
 			  ./ft_printf_p.c\
-			  ./ft_printf_x.c
+			  ./ft_printf_x.c\
+			  ./ft_func.c
 OBJS		= $(SRCS:.c=.o)
 INCS		= .
 RM			= rm -f
