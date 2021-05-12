@@ -6,7 +6,7 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:27:14 by hyejung           #+#    #+#             */
-/*   Updated: 2021/04/30 19:14:49 by hyejung          ###   ########.fr       */
+/*   Updated: 2021/05/08 16:14:36 by hyejung          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,13 @@ int		printf_p_minus(va_list ap, t_ele *ele)
 {
 	long long	num;
 	int			len;
+	int			i;
 	char		*tmp;
 
 	num = va_arg(ap, long long);
 	tmp = printf_p_cir(num);
 	len = ft_strlen(tmp);
+	i = ele->num[0];
 	if (ele->dot == 2)
 	{
 		ele->num[1] = ele->num[0];
@@ -59,20 +61,25 @@ int		printf_p_minus(va_list ap, t_ele *ele)
 	write(1, tmp, len);
 	while (ele->num[0]-- > 0)
 		write(1, " ", 1);
-	return (0);
+	if (i > 14)
+		return (i);
+	else
+		return (14);
 }
 
-int		printf_p(va_list ap, t_ele *ele)
+int		printf_p(va_list ap, t_ele *ele) // 총 14자 
 {
 	long long	num;
 	char		*tmp;
 	int			len;
 	int			ch;
+	int			i;
 
 	ch = 0;
 	if (ele->minus == 1)
 		return (printf_p_minus(ap, ele));
 	num = va_arg(ap, long long);
+	i = ele->num[0];
 	if (num == 0)
 		return (write(1, "0x0", 3));
 	tmp = printf_p_cir(num);
@@ -88,5 +95,8 @@ int		printf_p(va_list ap, t_ele *ele)
 		write(1, "0", 1);
 	write(1, tmp, len);
 	free(tmp);
-	return (0);
+	if (i > 14)
+		return (i);
+	else
+		return (14);
 }

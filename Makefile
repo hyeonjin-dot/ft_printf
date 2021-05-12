@@ -6,7 +6,7 @@
 #    By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/04 11:53:24 by hyejung           #+#    #+#              #
-#    Updated: 2021/04/30 18:52:48 by hyejung          ###   ########.fr        #
+#    Updated: 2021/05/02 15:36:19 by jeonghyeo        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,9 @@ SRCS		= ./ft_printf.c\
 			  ./ft_printf_p.c\
 			  ./ft_printf_x.c\
 			  ./ft_func.c
+
 OBJS		= $(SRCS:.c=.o)
-INCS		= .
+INCS		= ./include
 RM			= rm -f
 LIBC		= ar rc
 CC			= gcc

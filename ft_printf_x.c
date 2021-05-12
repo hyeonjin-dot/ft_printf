@@ -6,7 +6,7 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:27:46 by hyejung           #+#    #+#             */
-/*   Updated: 2021/04/30 19:21:28 by hyejung          ###   ########.fr       */
+/*   Updated: 2021/05/08 16:25:38 by hyejung          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int		printf_x_minus(va_list ap, t_ele *ele)
 {
 	unsigned int	num;
 	int				len;
+	int				i;
 	char			*tmp;
 
 	num = va_arg(ap, int);
@@ -51,6 +52,7 @@ int		printf_x_minus(va_list ap, t_ele *ele)
 		num = 4294967295 + num + 1;
 	tmp = printf_x_cir(num, ele->form);
 	len = ft_strlen(tmp);
+	i = ele->num[0];
 	if (ele->dot == 2)
 	{
 		ele->num[1] = ele->num[0];
@@ -63,13 +65,17 @@ int		printf_x_minus(va_list ap, t_ele *ele)
 	write(1, tmp, len);
 	while (ele->num[0]-- > 0)
 		write(1, " ", 1);
-	return (0);
+	if (i > (int)len)
+		return (i);
+	else
+		return ((int)len);
 }
 
 int		printf_x(va_list ap, t_ele *ele)
 {
 	unsigned int	num;
 	int				len;
+	int				i;
 	char			*tmp;
 
 	if (ele->minus == 1)
@@ -79,6 +85,7 @@ int		printf_x(va_list ap, t_ele *ele)
 		num = 4294967295 + num + 1;
 	tmp = printf_x_cir(num, ele->form);
 	len = ft_strlen(tmp);
+	i = ele->num[0];
 	if (ele->dot == 2)
 	{
 		ele->num[1] = ele->num[0];
@@ -92,5 +99,8 @@ int		printf_x(va_list ap, t_ele *ele)
 		write(1, "0", 1);
 	write(1, tmp, len);
 	free(tmp);
-	return (0);
+	if (i > (int)len)
+		return (i);
+	else
+		return ((int)len);
 }

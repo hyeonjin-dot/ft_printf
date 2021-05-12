@@ -6,7 +6,7 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:27:54 by hyejung           #+#    #+#             */
-/*   Updated: 2021/04/30 19:06:13 by hyejung          ###   ########.fr       */
+/*   Updated: 2021/05/08 15:37:14 by hyejung          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	t_elements
 	int		num[2];
 	int		dot;
 	int		zero;
+	int		len;
 	char	form;
 }	t_ele;
 
