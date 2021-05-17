@@ -6,7 +6,7 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:27:32 by hyejung           #+#    #+#             */
-/*   Updated: 2021/05/12 18:00:54 by jeonghyeo        ###   ########.fr       */
+/*   Updated: 2021/05/15 18:52:10 by jeonghyeo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		printf_s(va_list ap, t_ele *ele)
 	int		len;
 	int		i;
 
-	if (ele->minus == 1)
+	if (ele->minus % 2 == 1)
 		return (printf_s_minus(ap, ele));
 	i = ele->num[0];
 	tmp = va_arg(ap, char*);
@@ -104,7 +104,7 @@ int		printf_c(va_list ap, t_ele *ele)
 	i = ele->num[0];
 	if (ele->dot == 2 && ele->num[0] != -1)
 		write(1, &tmp, 1);
-	if (ele->minus == 1)
+	if (ele->minus % 2 == 1)
 		write(1, &tmp, 1);
 	while (ele->num[0] - 1 > 0)
 	{

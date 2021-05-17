@@ -6,7 +6,7 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:27:01 by hyejung           #+#    #+#             */
-/*   Updated: 2021/05/12 22:59:09 by jeonghyeo        ###   ########.fr       */
+/*   Updated: 2021/05/16 17:58:29 by jeonghyeo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,39 @@
 int	printf_u_cir_minus(t_ele *ele, unsigned int num, unsigned int len, char *tmp)
 {
 	int			i;
+	int			j;
 
-	i = ele->num[0];
 	if (ele->dot == 2)
 	{
 		ele->num[1] = ele->num[0];
 		ele->num[0] = -1;
 	}
-	ele->num[0] = ele->num[0] - (ele->num[1] == -1 ? len : ele->num[1]);
+	i = ele->num[0];
+	j = ele->num[1];
+	if (num == 0 && ele->dot >= 1 && ele->num[1] <= 0)
+	{
+		while (ele->minus == 1 && ele->num[1] != 0 && ele->num[0]-- > 0)
+			write(1, "0", 1);
+		while (ele->num[0]-- > 0)
+			write(1, " ", 1);
+		if (i != -1)
+			return (i);
+		else
+			return (0);
+	}
+	if (ele->minus == 5)
+		ele->num[1] = len;
+	if (ele->minus !=5 && ele->num[1] > (int)len)
+		ele->num[0] = ele->num[0] - ele->num[1];
+	else
+		ele->num[0] = ele->num[0] - len;
 	if (num < 0)
 	{
 		write(1, "-", 1);
 		tmp++;
 		len--;
+		if (ele->minus == 5)
+			ele->num[1]--;
 	}
 	ele->num[1] = ele->num[1] - len;
 	while (ele->num[1]-- > 0)
@@ -35,26 +55,46 @@ int	printf_u_cir_minus(t_ele *ele, unsigned int num, unsigned int len, char *tmp
 	write(1, tmp, len);
 	while (ele->num[0]-- > 0)
 		write(1, " ", 1);
-	if (i > (int)len)
+	if ((ele->minus == 5 || i > j) && i > (int)len)
 		return (i);
-	else
+	else if (ele->minus == 5 || j < (int) len)
 		return ((int)len);
+	else
+		return (j);
 }
 
 int	printf_u_cir(t_ele *ele, unsigned int num, unsigned int len, char *tmp)
 {
 	int			i;
+	int			j;
 
-	if (ele->minus == 1)
+	if (ele->minus % 2 == 1)
 		return (printf_u_cir_minus(ele, num, len, tmp));
-	i = ele->num[0];
 	if (ele->dot == 2)
 	{
 		ele->num[1] = ele->num[0];
 		ele->num[0] = -1;
 	}
-	ele->num[0] = ele->num[0] - (ele->num[1] == -1 ? len : ele->num[1]);
+	i = ele->num[0];
+	j = ele->num[1];
+	if (num == 0 && ele->dot > 0 && ele->num[1] < 1)
+	{
+		while (ele->num[0]-- > 0)
+			write(1, " ", 1);
+		if (i != -1)
+			return (i);
+		else
+			return (0);
+	}
+	if (ele->minus == 2)
+		ele->num[1] = len - 1;
+	if (ele->minus != 2 && ele->num[1] > (int)len)
+		ele->num[0] = ele->num[0] - ele->num[1];
+	else
+		ele->num[0] = ele->num[0] - len;
 	while (ele->zero == 0 && ele->num[0]-- > 0)
+		write(1, " ", 1);
+	while (ele->zero == 1 && ele->dot == 1 && ele->minus != 2 && ele->num[0]-- > 0)
 		write(1, " ", 1);
 	if (num < 0)
 	{
@@ -66,10 +106,12 @@ int	printf_u_cir(t_ele *ele, unsigned int num, unsigned int len, char *tmp)
 	while (ele->num[1]-- > 0 || (ele->zero == 1 && ele->num[0]-- > 0))
 		write(1, "0", 1);
 	write(1, tmp, len);
-	if (i > (int)len)
+	if (i > (int)len && (ele->minus == 2 || i > j))
 		return (i);
-	else
+	else if (ele->minus == 2 || (int)len > j)
 		return ((int)len);
+	else
+		return (j);
 }
 
 int	printf_u(va_list ap, t_ele *ele)
@@ -103,12 +145,32 @@ int	printf_di_minus(va_list ap, t_ele *ele)
 	int				num;
 	int				len;
 	int				i;
+	int				j;
 	char			*tmp;
 
 	num = va_arg(ap, int);
 	tmp = ft_itoa(num);
 	len = ft_strlen(tmp);
+	if (ele->dot == 2)
+	{
+		ele->num[1] = ele->num[0];
+		ele->num[0] = -1;
+	}
 	i = ele->num[0];
+	j = ele->num[1];
+	if (num == 0 && ele->dot >= 1 && ele->num[1] <= 0)
+	{
+		while (ele->minus > 1 && ele->num[1] != 0 && ele->num[0]-- > 0)
+			write(1, "0", 1);
+		while (ele->num[0]-- > 0)
+			write(1, " ", 1);
+		if (i > 0)
+			return (i);
+		else
+			return (0);
+	}
+	if (ele->minus == 5)
+		ele->num[1] = len;
 	if (ele->num[1] > len)
 		ele->num[0] = ele->num[0] - ele->num[1];
 	else
@@ -118,23 +180,28 @@ int	printf_di_minus(va_list ap, t_ele *ele)
 		write(1, "-", 1);
 		tmp++;
 		len--;
+		if (ele->minus == 5)
+			ele->num[1]--;
 	}
-	if (ele->num[1] > len)
-		ele->num[1] = ele->num[1] - len;
-	while ((ele->dot == 2 && ele->num[0]-- > 0) || ele->num[1]-- > 0)
+	ele->num[1] = ele->num[1] - len;
+	while (ele->num[1]-- > 0)
 		write(1, "0", 1);
 	write(1, tmp, len);
-	while (ele->dot < 2 && ele->num[0]-- > 0)
+	while (ele->num[0]-- > 0)
 		write(1, " ", 1);
 	if (num < 0)
+	{
 		len++;
-	if (i > (int)len)
+		j++;
+	}
+	if ((ele->minus == 5 || i > j) && i > (int)len)
 		return (i);
-	else if (ele->num[1] < (int)len)
+	else if (ele->minus == 5 || j < (int)len)
 		return ((int)len);
 	else
-		return (ele->num[1]);
+		return (j);
 }
+
 
 int	printf_di(va_list ap, t_ele *ele)
 {
@@ -144,41 +211,66 @@ int	printf_di(va_list ap, t_ele *ele)
 	int				j;
 	char			*tmp;
 
-	if (ele->minus == 1)
+	if (ele->minus % 2 == 1 )
 		return (printf_di_minus(ap, ele));
 	num = va_arg(ap, int);
 	tmp = ft_itoa(num);
 	len = ft_strlen(tmp);
-	i = ele->num[0];
-	j = ele->num[1];
-	if (ele->minus == 0 && ele->num[1] > len)
-		len = ele->num[1];
-	if (ele->minus == 2)
-		ele->num[1] = len;
-	ele->num[0] = ele->num[0] - len;
-	while (ele->zero == 0 && ele->dot < 2 && ele->num[0]-- > 0)
+	if (ele->dot == 2)
+    {
+        ele->num[1] = ele->num[0];
+        ele->num[0] = -1;
+    }
+    i = ele->num[0];
+    j = ele->num[1];
+	if (num == 0 && ele->dot != 0 && ele->num[1] < 1)
+	{
+		while (ele->num[0]-- > 0)
+			write(1, " ", 1);
+		if (i != -1)
+			return (i);
+		else
+			return (0);
+	}
+    if (ele->minus == 2) // 음수의 경우, len - 1이 되어야 함.
+        ele->num[1] = len - 1;
+    if (ele->minus != 2 && ele->num[1] > len)
+        ele->num[0] = ele->num[0] - ele->num[1];
+    else
+        ele->num[0] = ele->num[0] - len;
+	if (num < 0 && ele->minus != 2 && ele->num[1] > len)
+		ele->num[0]--;
+    while (ele->zero == 0 && ele->num[0]-- > 0)
+        write(1, " ", 1);
+	while (ele->zero == 1 && ele->dot == 1 && ele->minus != 2 && ele->num[0]-- > 0)
 		write(1, " ", 1);
-	if (num < 0)
-	{
-		write(1, "-", 1);
-		tmp++;
-		len--;
-	}
-	ele->num[1] = ele->num[1] - ft_strlen(tmp);
-	while (ele->num[1]-- > 0)
-		write(1, "0", 1);
-	while ((ele->dot == 2 || ele->zero == 1) && ele->num[0]-- > 0)
-		write(1, "0", 1);
-	write(1, tmp, len);
-	if (num < 0)
-	{
-		j++;
-		ft_strlcat(tmp, "-", ft_strlen(tmp) + 2);
-	}
-	if (i > (int)ft_strlen(tmp) && i > j)
-		return (i);
-	else if (j < (int)ft_strlen(tmp))
-		return ((int)ft_strlen(tmp));
-	else
-		return (j);
+    if (num < 0)
+    {
+        write(1, "-", 1);
+        tmp++;
+        len--;
+    }
+    if (ele->num[1] > len)
+        ele->num[1] = ele->num[1] - len;
+    else
+        ele->num[1] = 0;
+    while (ele->num[1]-- > 0)
+         write(1, "0", 1);
+     while (ele->dot == 0 && ele->zero == 1 && ele->num[0]-- > 0)
+         write(1, "0", 1);
+     while (ele->zero == 1 && ele->minus == 2 && ele->num[0]-- > 0)
+         write(1, "0", 1);
+     write(1, tmp, len);
+	 len = ft_strlen(tmp);
+     if (num < 0)
+     {
+         len++;
+         j++;
+     }
+     if (i > (int)len && (ele->minus == 2 || i > j))
+         return (i);
+     else if (j < (int)len || ele->minus == 2)
+         return ((int)len);
+     else
+         return (j);
 }

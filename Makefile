@@ -6,7 +6,7 @@
 #    By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/04 11:53:24 by hyejung           #+#    #+#              #
-#    Updated: 2021/05/02 15:36:19 by jeonghyeo        ###   ########.fr        #
+#    Updated: 2021/05/15 21:37:20 by jeonghyeo        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS		= ./ft_printf.c\
 			  ./ft_printf_nbr.c\
 			  ./ft_printf_p.c\
 			  ./ft_printf_x.c\
+			  ./ft_printf_pe.c\
 			  ./ft_func.c
 
 OBJS		= $(SRCS:.c=.o)
@@ -30,7 +31,7 @@ CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror
 
 .c.o :
-	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) -I$(INCS)
+	$(CC) $(CFLAGS) -I $(INCS) -c $< -o $(<:.c=.o)
 
 $(NAME) : $(OBJS)
 	make all -C $(LIBFT)/
