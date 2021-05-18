@@ -64,8 +64,8 @@ int		printf_x_minus(va_list ap, t_ele *ele)
 	j = ele->num[1];
 	if (num == 0 && ele->dot >= 1 && ele->num[1] <= 0)
 	{
-		while (ele->minus == 1 && ele->num[0]-- > 0)
-			write(1, "0", 1);
+		/*while (ele->minus == 1 && ele->num[0]-- > 0)
+			write(1, "0", 1);*/
 		while (ele->num[0]-- > 0)
 			write(1, " ", 1);
 		if (i != -1)

@@ -23,3 +23,22 @@ int	check_form(char c)
 	else
 		return (0);
 }
+
+void dot_2(t_ele *ele)
+{
+	ele->num[1] = ele->num[0];
+	ele->num[0] = -1;
+}
+
+int	numiszero(int i, t_ele *ele)
+{
+	while (ele->minus == 1 && ele->num[1] != 0 && ele->num[0]-- > 0)
+		write(1, "0", 1);
+	while (ele->num[0]-- > 0)
+		write(1, " ", 1);
+	if (i != -1)
+		return (i);
+	else
+		return (0);
+}
+

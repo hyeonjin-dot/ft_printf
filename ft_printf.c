@@ -52,7 +52,7 @@ void	star(va_list ap, t_ele *ele)
 			ele->minus = 3;
 		else if (ele->minus == 0 && ele->num[1] == -1)
 			ele->minus = 2;
-		else if (ele->minus == 3 && ele->num[0] != -1)
+		else if (ele->minus % 2 == 1 && ele->num[0] != -1)
 			ele->minus = 5;
 	}
 	if ((ele->num[0] == 0 && ele->dot == 0) || ele->num[0] == -1)
@@ -168,49 +168,16 @@ int		ft_printf(const char *str, ...)
     char    *u = "-0";
 	int		nb = 70;
 
-	a = -2;
-	while(a < 5) //T70-177
-	{
-		b = -2;
-		while (b < 5)
-		{
-			printf(" %d--- Return : %d\n",nb ,printf("%*.*i, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d", a, b, i, a, b, j, a,
-  b, k, a, b, l, a, b, m, a, b, c, a, b, e, a, b, d));
-			ft_printf(" %d-1- Return : %d\n",nb ,ft_printf("%*.*i, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d", a, b, i, a, b, j, a,
-   b, k, a, b, l, a, b, m, a, b, c, a, b, e, a, b, d));
-			nb++;
-             printf(" %d--- Return : %d\n",nb ,printf("%-*.*i, %-*.*d, %-*.*d, %-*.*d, %-*.*d, %-*.*d, %-*.*d, %-*.*d", a, b, i, a,
- b, j, a, b, k, a, b, l, a, b, m, a, b, c, a, b, e, a, b, d));
-			 ft_printf(" %d-2- Return : %d\n",nb, ft_printf("%-*.*i, %-*.*d, %-*.*d, %-*.*d, %-*.*d, %-*.*d, %-*.*d, %-*.*d", a, b, i, a,
-  b, j, a, b, k, a, b, l, a, b, m, a, b, c, a, b, e, a, b, d));
-			 nb++;
-             printf(" %d--- Return : %d\n",nb, printf("%0*.*i, %0*.*d, %0*.*d, %0*.*d, %0*.*d, %0*.*d, %0*.*d, %0*.*d", a, b, i, a,
- b, j, a, b, k, a, b, l, a, b, m, a, b, c, a, b, e, a, b, d));
-			 ft_printf(" %d-3- Return : %d\n",nb, ft_printf("%0*.*i, %0*.*d, %0*.*d, %0*.*d, %0*.*d, %0*.*d, %0*.*d, %0*.*d", a, b, i, a,
-  b, j, a, b, k, a, b, l, a, b, m, a, b, c, a, b, e, a, b, d));
-			 nb++;
-             b++;
-         }
-         a++;
-     }
-
+	printf(" --- Return : %d\n", printf("%-1.i, %-1.d, %-1.d, %-1.d, %-1.d, %-1.d, %-1d, %-1d", i, j, k, l, m, c, e, d));
+	ft_printf(" --- Return : %d\n", ft_printf("%-1.i, %-1.d, %-1.d, %-1.d, %-1.d, %-1.d, %-1d, %-1d", i, j, k, l, m, c, e, d));
 }*/
 
 /*int	main()
 {
-	int	a = -2;
-	int	b;
-
-	while (a < 5)
-	{
-		b = -2;
-		while (b < 5)
-		{
-			printf("%d\n\n", printf("%*.*d", a ,b, 0));
-			ft_printf("%d\n\n", ft_printf("%*.*d", a ,b, 0));
-			printf("a:%d b:%d\n", a, b);
-			b++;
-		}
-		a++;
-	}
+	printf("%d\n\n", printf("%---2s", -2));
+	ft_printf("%d\n\n", ft_printf("%s", NULL));
+ 	// printf(" --- Return : %d\n", printf("%-2s, %.s, %-4s, %-2.4s, %-8.12s, %3s, %8s, %---2s, %.*s, %.0s, %.1s, %.2s, %.4s, %.8s", NULL, NULL
+ NULL, NULL, NULL, NULL, NULL, NULL, -2, NULL, NULL, NULL, NULL, NULL, NULL));
+   //ft_printf(" --- Return : %d\n", ft_printf("%-2s, %.s, %-4s, %-2.4s, %-8.12s, %3s, %8s, %---2s, %.*s, %.0s, %.1s, %.2s, %.4s, %.8s", NULL, NULL
+ NULL, NULL, NULL, NULL, NULL, NULL, -2, NULL, NULL, NULL, NULL, NULL, NULL));
 }*/

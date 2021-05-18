@@ -18,16 +18,13 @@ int	printf_u_cir_minus(t_ele *ele, unsigned int num, unsigned int len, char *tmp
 	int			j;
 
 	if (ele->dot == 2)
-	{
-		ele->num[1] = ele->num[0];
-		ele->num[0] = -1;
-	}
+		dot_2(ele);
 	i = ele->num[0];
 	j = ele->num[1];
 	if (num == 0 && ele->dot >= 1 && ele->num[1] <= 0)
 	{
-		while (ele->minus == 1 && ele->num[1] != 0 && ele->num[0]-- > 0)
-			write(1, "0", 1);
+	/*	while (ele->minus > 1 && ele->num[1] != 0 && ele->num[0]-- > 0) // == 1에서 수정:
+			write(1, "0", 1);*/
 		while (ele->num[0]-- > 0)
 			write(1, " ", 1);
 		if (i != -1)
@@ -71,10 +68,7 @@ int	printf_u_cir(t_ele *ele, unsigned int num, unsigned int len, char *tmp)
 	if (ele->minus % 2 == 1)
 		return (printf_u_cir_minus(ele, num, len, tmp));
 	if (ele->dot == 2)
-	{
-		ele->num[1] = ele->num[0];
-		ele->num[0] = -1;
-	}
+		dot_2(ele);
 	i = ele->num[0];
 	j = ele->num[1];
 	if (num == 0 && ele->dot > 0 && ele->num[1] < 1)
@@ -152,16 +146,13 @@ int	printf_di_minus(va_list ap, t_ele *ele)
 	tmp = ft_itoa(num);
 	len = ft_strlen(tmp);
 	if (ele->dot == 2)
-	{
-		ele->num[1] = ele->num[0];
-		ele->num[0] = -1;
-	}
+		dot_2(ele);
 	i = ele->num[0];
 	j = ele->num[1];
 	if (num == 0 && ele->dot >= 1 && ele->num[1] <= 0)
 	{
-		while (ele->minus > 1 && ele->num[1] != 0 && ele->num[0]-- > 0)
-			write(1, "0", 1);
+		/*while (ele->minus > 1 && ele->num[1] != 0 && ele->num[0]-- > 0)
+			write(1, "0", 1);*/
 		while (ele->num[0]-- > 0)
 			write(1, " ", 1);
 		if (i > 0)
@@ -171,7 +162,7 @@ int	printf_di_minus(va_list ap, t_ele *ele)
 	}
 	if (ele->minus == 5)
 		ele->num[1] = len;
-	if (ele->num[1] > len)
+	if (ele->minus != 5 && ele->num[1] > len)
 		ele->num[0] = ele->num[0] - ele->num[1];
 	else
 		ele->num[0] = ele->num[0] - len;
@@ -217,10 +208,7 @@ int	printf_di(va_list ap, t_ele *ele)
 	tmp = ft_itoa(num);
 	len = ft_strlen(tmp);
 	if (ele->dot == 2)
-    {
-        ele->num[1] = ele->num[0];
-        ele->num[0] = -1;
-    }
+		dot_2(ele);
     i = ele->num[0];
     j = ele->num[1];
 	if (num == 0 && ele->dot != 0 && ele->num[1] < 1)

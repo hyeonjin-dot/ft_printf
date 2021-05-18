@@ -73,6 +73,8 @@ int		printf_s(va_list ap, t_ele *ele)
 		return (printf_s_minus(ap, ele));
 	i = ele->num[0];
 	tmp = va_arg(ap, char*);
+	if (tmp == 0)
+		tmp = "(null)";
 	len = ft_strlen(tmp);
 	if ((ele->dot == 1 && ele->num[1] <= 0) || ele->dot == 2)
 		return (printf_s_dot(tmp, ele));

@@ -38,5 +38,6 @@ int		printf_c(va_list ap, t_ele *ele);
 int		printf_pe(va_list ap, t_ele *ele);
 int		ft_printf(const char *str, ...);
 int		check_form(char c);
+void	dot_2(t_ele *ele);
 
 #endif
