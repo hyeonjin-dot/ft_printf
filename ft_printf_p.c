@@ -6,7 +6,7 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:27:14 by hyejung           #+#    #+#             */
-/*   Updated: 2021/05/08 16:14:36 by hyejung          ###   ########.fr       */
+/*   Updated: 2021/05/26 00:02:12 by jeonghyeo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,11 @@ char	*printf_p_cir(long long num)
 		num = num / 16;
 	}
 	while (i >= 0)
-		tmp[i--] = '0';
-	return (tmp);
+		tmp[i--] = 'z';
+	i++;
+	while (tmp[i] == 'z')
+		i++;
+	return (tmp + i);
 }
 
 int		printf_p_minus(va_list ap, t_ele *ele)
@@ -47,27 +50,35 @@ int		printf_p_minus(va_list ap, t_ele *ele)
 	num = va_arg(ap, long long);
 	tmp = printf_p_cir(num);
 	len = ft_strlen(tmp);
-	i = ele->num[0];
 	if (ele->dot == 2)
 	{
 		ele->num[1] = ele->num[0];
 		ele->num[0] = -1;
 	}
-	ele->num[0] = ele->num[0] - (ele->num[1] == -1 ? len : ele->num[1]) - 2;
+	i = ele->num[0];
+	if (num == 0 && ele->dot == 0)
+		len = 1;
+	if (ele->num[1] > len)
+		ele->num[0] = ele->num[0] - ele->num[1] - 2;
+	else
+		ele->num[0] = ele->num[0] - len - 2;
 	ele->num[1] = ele->num[1] - len;
 	write(1, "0x", 2);
 	while (ele->num[1]-- > 0)
 		write(1, "0", 1);
-	write(1, tmp, len);
+	if (num == 0 && ele->dot == 0)
+		write(1, "0", 1);
+	else
+		write(1, tmp, len);
 	while (ele->num[0]-- > 0)
 		write(1, " ", 1);
-	if (i > 14)
+	if (len + 2 <= i)
 		return (i);
 	else
-		return (14);
+		return (len + 2);
 }
 
-int		printf_p(va_list ap, t_ele *ele) // 총 14자 
+int		printf_p(va_list ap, t_ele *ele) 
 {
 	long long	num;
 	char		*tmp;
@@ -76,15 +87,23 @@ int		printf_p(va_list ap, t_ele *ele) // 총 14자
 	int			i;
 
 	ch = 0;
-	if (ele->minus == 1)
+	if (ele->minus % 2 == 1)
 		return (printf_p_minus(ap, ele));
 	num = va_arg(ap, long long);
+	if (ele->dot == 2)
+	{
+		ele->num[1] = ele->num[0];
+		ele->num[0] = -1;
+	}
 	i = ele->num[0];
-	if (num == 0)
-		return (write(1, "0x0", 3));
 	tmp = printf_p_cir(num);
 	len = ft_strlen(tmp);
-	ele->num[0] = ele->num[0] - (ele->num[1] == -1 ? len : ele->num[1]) - 2;
+	if (num == 0 && ele->dot == 0)
+		len = 1;
+	if (ele->minus != 2 && ele->num[1] > len)
+		ele->num[0] = ele->num[0] - ele->num[1] - 2;
+	else
+		ele->num[0] = ele->num[0] - len - 2;
 	while (ele->zero == 0 && ele->dot < 2 && ele->num[0]-- > 0)
 		write(1, " ", 1);
 	write(1, "0x", 2);
@@ -93,10 +112,12 @@ int		printf_p(va_list ap, t_ele *ele) // 총 14자
 		ch = 1;
 	while (ele->num[1]-- > 0 || ((ch == 1) && ele->num[0]-- > 0))
 		write(1, "0", 1);
-	write(1, tmp, len);
-	free(tmp);
-	if (i > 14)
+	if (num == 0 && ele->dot == 0)
+		write(1, "0", 1);
+	else
+		write(1, tmp, len);
+	if (len + 2 <= i)
 		return (i);
 	else
-		return (14);
+		return (len + 2);
 }

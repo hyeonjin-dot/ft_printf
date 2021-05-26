@@ -2,5 +2,11 @@
 
 int	main()
 {
-	printf("%d\n\n", printf("(%-*.d)", 2, 0));
+	int	a;
+	int	*b;
+
+	a = 3;
+	b = &a;
+	printf("%d\n\n", printf("(%*.*s)", -4,1,"hello"));
+	printf("%d\n\n", printf("%p", b));
 }

@@ -6,7 +6,7 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:27:32 by hyejung           #+#    #+#             */
-/*   Updated: 2021/05/15 18:52:10 by jeonghyeo        ###   ########.fr       */
+/*   Updated: 2021/05/25 23:05:33 by jeonghyeo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ int		printf_s_dot(char *tmp, t_ele *ele)
 	int		len;
 
 	len = ft_strlen(tmp);
+	if (ele->dot == 2)
+		dot_2(ele);
 	i = ele->num[0];
+	if (ele->minus >= 5)
+		ele->num[1] = len;
 	if (ele->dot == 1 && ele->num[1] <= 0)
 	{
 		while (ele->num[0]-- > 0)
@@ -27,12 +31,14 @@ int		printf_s_dot(char *tmp, t_ele *ele)
 	}
 	else
 	{
-		if (ele->num[0] < len && ele->num[0] > 0)
+		if (ele->num[1] < len && ele->num[1] > 0)
 		{
-			write(1, tmp, ele->num[0]);
-			return (ele->num[0]);
+			if (ele->minus == 2)
+				ele->num[1] = len;
+			write(1, tmp, ele->num[1]);
+			return (ele->num[1]);
 		}
-		else if (ele->num[0] <= 0)
+		else if (ele->num[1] <= 0)
 			return (0);
 		else
 		{
@@ -49,10 +55,18 @@ int		printf_s_minus(va_list ap, t_ele *ele)
 	int		i;
 
 	tmp = va_arg(ap, char*);
+	if (tmp == 0 || tmp == NULL)
+		tmp = "(null)";
 	len = ft_strlen(tmp);
-	i = ele->num[0];
 	if ((ele->dot == 1 && ele->num[1] <= 0) || ele->dot == 2)
 		return (printf_s_dot(tmp, ele));
+	i = ele->num[0];
+	if (ele->minus > 4)
+		ele->num[1] = len;
+	if (ele->minus <= 3 && ele->num[1] < len && ele->num[1] != -1) //
+		len = ele->num[1]; //
+	//if (ele->minus != 5 && ele->num[1] > len)
+		//ele->num[0] = ele->num[0] - ele->num[1];
 	ele->num[0] = ele->num[0] - len;
 	write(1, tmp, len);
 	while ((ele->num[0])-- > 0)
@@ -71,17 +85,19 @@ int		printf_s(va_list ap, t_ele *ele)
 
 	if (ele->minus % 2 == 1)
 		return (printf_s_minus(ap, ele));
-	i = ele->num[0];
 	tmp = va_arg(ap, char*);
-	if (tmp == 0)
+	if (tmp == 0 || tmp == NULL)
 		tmp = "(null)";
 	len = ft_strlen(tmp);
 	if ((ele->dot == 1 && ele->num[1] <= 0) || ele->dot == 2)
 		return (printf_s_dot(tmp, ele));
+	i = ele->num[0];
 	if (ele->dot == 1 && len > ele->num[1] && ele->minus == 0)
 		len = ele->num[1];
 	if (ele->minus == 2)
 		ele->num[1] = len;
+	//if (ele->minus != 2 && ele->num[1] > len)
+		//len = ele->num[1];
 	ele->num[0] = ele->num[0] - len;
 	while (ele->num[0]-- > 0)
 	{

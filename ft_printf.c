@@ -6,7 +6,7 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:26:44 by hyejung           #+#    #+#             */
-/*   Updated: 2021/05/16 17:58:44 by jeonghyeo        ###   ########.fr       */
+/*   Updated: 2021/05/26 00:03:56 by jeonghyeo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	star(va_list ap, t_ele *ele)
 			ele->minus = 2;
 		else if (ele->minus % 2 == 1 && ele->num[0] != -1)
 			ele->minus = 5;
+		else if (ele->minus == 1 && ele->num[0] == -1)
+			ele->minus = 7;
 	}
 	if ((ele->num[0] == 0 && ele->dot == 0) || ele->num[0] == -1)
 		ele->num[0] = num;
@@ -75,8 +77,10 @@ int		printf_form(va_list ap, t_ele *ele)
 		return (printf_x(ap, ele));
 	if (ele->form == 'p')
 		return (printf_p(ap, ele));
+	if (ele->form == '%')
+		return (printf_pe(ele));
 	else
-		return (printf_pe(ap, ele));
+		return (0);
 }
 
 int		ft_check(char *str, int i, t_ele *ele, va_list ap)
@@ -141,43 +145,13 @@ int		ft_printf(const char *str, ...)
 	return (ele.len);
 }
 
-//main 함수
-// 해야 할 것 : minus == 2 의 경우 처리하기 (%d)
-/*int	main()
-{
-    int     a = -4;
-    int     b = 0;
-    char    c = 'a';
-    int     d = 2147483647;
-    int     e = -2147483648;
-    int     f = 42;
-    int     g = 25;
-    int     h = 4200;
-    int     i = 8;
-    int     j = -12;
-    int     k = 123456789;
-    int     l = 0;
-    int     m = -12345678;
-    char    *n = "abcdefghijklmnop";
-    char    *o = "-a";
-    char    *p = "-12";
-    char    *q = "0";
-    char    *r = "%%";
-    char    *s = "-2147483648";
-    char    *t = "0x12345678";
-    char    *u = "-0";
-	int		nb = 70;
 
-	printf(" --- Return : %d\n", printf("%-1.i, %-1.d, %-1.d, %-1.d, %-1.d, %-1.d, %-1d, %-1d", i, j, k, l, m, c, e, d));
-	ft_printf(" --- Return : %d\n", ft_printf("%-1.i, %-1.d, %-1.d, %-1.d, %-1.d, %-1.d, %-1d, %-1d", i, j, k, l, m, c, e, d));
-}*/
 
-/*int	main()
+int	main()
 {
-	printf("%d\n\n", printf("%---2s", -2));
-	ft_printf("%d\n\n", ft_printf("%s", NULL));
- 	// printf(" --- Return : %d\n", printf("%-2s, %.s, %-4s, %-2.4s, %-8.12s, %3s, %8s, %---2s, %.*s, %.0s, %.1s, %.2s, %.4s, %.8s", NULL, NULL
- NULL, NULL, NULL, NULL, NULL, NULL, -2, NULL, NULL, NULL, NULL, NULL, NULL));
-   //ft_printf(" --- Return : %d\n", ft_printf("%-2s, %.s, %-4s, %-2.4s, %-8.12s, %3s, %8s, %---2s, %.*s, %.0s, %.1s, %.2s, %.4s, %.8s", NULL, NULL
- NULL, NULL, NULL, NULL, NULL, NULL, -2, NULL, NULL, NULL, NULL, NULL, NULL));
-}*/
+printf(" --- Return : %d\n", printf("%04.0d",198));//512
+ft_printf(" --- Return : %d\n", ft_printf("%04.0d", 198));//512
+printf(" --- Return : %d\n", printf(""));//513
+ft_printf(" --- Return : %d\n", ft_printf(""));//513
+
+ }

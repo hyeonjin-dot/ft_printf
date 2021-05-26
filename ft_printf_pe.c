@@ -1,11 +1,10 @@
 #include "header.h"
 
-int	printf_pe(va_list ap, t_ele *ele)
+int	printf_pe(t_ele *ele)
 {
 	int		i;
 	char	tmp; 
 
-	tmp = va_arg(ap, int);
 	tmp = '%';
 	i = ele->num[0];
 	if (ele->minus % 2 != 0)
