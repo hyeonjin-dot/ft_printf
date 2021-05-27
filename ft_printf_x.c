@@ -6,7 +6,7 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:27:46 by hyejung           #+#    #+#             */
-/*   Updated: 2021/05/16 16:55:04 by jeonghyeo        ###   ########.fr       */
+/*   Updated: 2021/05/27 19:56:46 by jeonghyeo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int		printf_x_minus(va_list ap, t_ele *ele)
 		else
 			return (0);
 	}
-	if (ele->minus == 5)
+	if (ele->minus >= 5)
 		ele->num[1] = len;
 	if (ele->num[1] > len)
 		ele->num[0] = ele->num[0] - ele->num[1];
@@ -87,9 +87,9 @@ int		printf_x_minus(va_list ap, t_ele *ele)
 		write(1, " ", 1);
 	if (num != 0)
 		free(tmp);
-	if ((ele->minus == 5 || i > j) && i > (int)len)
+	if ((ele->minus >= 5 || i > j) && i > (int)len)
 		return (i);
-	else if (ele->minus == 5 || (int)len > j)
+	else if (ele->minus >= 5 || (int)len > j)
 		return ((int)len);
 	else
 		return (j);

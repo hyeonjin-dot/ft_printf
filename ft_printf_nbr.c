@@ -6,7 +6,7 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:27:01 by hyejung           #+#    #+#             */
-/*   Updated: 2021/05/25 21:24:45 by jeonghyeo        ###   ########.fr       */
+/*   Updated: 2021/05/27 19:53:07 by jeonghyeo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	printf_u_cir_minus(t_ele *ele, unsigned int num, unsigned int len, char *tmp
 		else
 			return (0);
 	}
-	if (ele->minus == 5)
+	if (ele->minus >= 5)
 		ele->num[1] = len;
-	if (ele->minus !=5 && ele->num[1] > (int)len)
+	if (ele->minus < 5 && ele->num[1] > (int)len)
 		ele->num[0] = ele->num[0] - ele->num[1];
 	else
 		ele->num[0] = ele->num[0] - len;
@@ -43,7 +43,7 @@ int	printf_u_cir_minus(t_ele *ele, unsigned int num, unsigned int len, char *tmp
 		write(1, "-", 1);
 		tmp++;
 		len--;
-		if (ele->minus == 5)
+		if (ele->minus >= 5)
 			ele->num[1]--;
 	}
 	ele->num[1] = ele->num[1] - len;
@@ -52,9 +52,9 @@ int	printf_u_cir_minus(t_ele *ele, unsigned int num, unsigned int len, char *tmp
 	write(1, tmp, len);
 	while (ele->num[0]-- > 0)
 		write(1, " ", 1);
-	if ((ele->minus == 5 || i > j) && i > (int)len)
+	if ((ele->minus >= 5 || i > j) && i > (int)len)
 		return (i);
-	else if (ele->minus == 5 || j < (int) len)
+	else if (ele->minus >= 5 || j < (int) len)
 		return ((int)len);
 	else
 		return (j);
@@ -171,7 +171,7 @@ int	printf_di_minus(va_list ap, t_ele *ele)
 		write(1, "-", 1);
 		tmp++;
 		len--;
-		if (ele->minus == 5)
+		if (ele->minus >= 5)
 			ele->num[1]--;
 	}
 	if (num < 0 && ele->num[1] > len)

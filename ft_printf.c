@@ -6,7 +6,7 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:26:44 by hyejung           #+#    #+#             */
-/*   Updated: 2021/05/26 00:03:56 by jeonghyeo        ###   ########.fr       */
+/*   Updated: 2021/05/27 23:31:45 by jeonghyeo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,15 @@ int		ft_check(char *str, int i, t_ele *ele, va_list ap)
 		if (str[i] == '*')
 			star(ap, ele);
 		else if (str[i] == '-')
+		{
 			ele->minus = 1;
+			if (ele->num[0] != -1)
+				ele->num[0] = -1;
+		}
 		else if (str[i] >= '0' && str[i] <= '9')
 		{
 			if (str[i] == '0')
-				ele->zero++;
+				ele->zero = 1;
 			if (ele->num[0] == -1)
 				(ele->num[0] = ft_atoi(&str[i]));
 			else
@@ -147,11 +151,11 @@ int		ft_printf(const char *str, ...)
 
 
 
-int	main()
+/*int	main()
 {
-printf(" --- Return : %d\n", printf("%04.0d",198));//512
-ft_printf(" --- Return : %d\n", ft_printf("%04.0d", 198));//512
+printf(" --- Return : %d\n", printf("%2.9p", (void *)1234));//512
+ft_printf(" --- Return : %d\n", ft_printf("%2.9p", (void *)1234));//512
 printf(" --- Return : %d\n", printf(""));//513
 ft_printf(" --- Return : %d\n", ft_printf(""));//513
 
- }
+ }*/
