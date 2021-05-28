@@ -6,7 +6,7 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:26:44 by hyejung           #+#    #+#             */
-/*   Updated: 2021/05/27 23:31:45 by jeonghyeo        ###   ########.fr       */
+/*   Updated: 2021/05/28 19:39:36 by jeonghyeo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,8 +153,8 @@ int		ft_printf(const char *str, ...)
 
 /*int	main()
 {
-printf(" --- Return : %d\n", printf("%2.9p", (void *)1234));//512
-ft_printf(" --- Return : %d\n", ft_printf("%2.9p", (void *)1234));//512
+printf(" --- Return : %d\n", printf("%2.9x", 0));//512
+ft_printf(" --- Return : %d\n", ft_printf("%2.9x", 0));//512
 printf(" --- Return : %d\n", printf(""));//513
 ft_printf(" --- Return : %d\n", ft_printf(""));//513
 

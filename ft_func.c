@@ -6,7 +6,7 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:26:33 by hyejung           #+#    #+#             */
-/*   Updated: 2021/04/30 18:26:38 by hyejung          ###   ########.fr       */
+/*   Updated: 2021/05/28 19:48:18 by jeonghyeo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void dot_2(t_ele *ele)
 
 int	numiszero(int i, t_ele *ele)
 {
-	while (ele->minus == 1 && ele->num[1] != 0 && ele->num[0]-- > 0)
-		write(1, "0", 1);
 	while (ele->num[0]-- > 0)
 		write(1, " ", 1);
 	if (i != -1)

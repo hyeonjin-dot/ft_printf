@@ -6,7 +6,7 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:27:01 by hyejung           #+#    #+#             */
-/*   Updated: 2021/05/27 19:53:07 by jeonghyeo        ###   ########.fr       */
+/*   Updated: 2021/05/28 19:48:12 by jeonghyeo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,7 @@ int	printf_u_cir_minus(t_ele *ele, unsigned int num, unsigned int len, char *tmp
 	i = ele->num[0];
 	j = ele->num[1];
 	if (num == 0 && ele->dot >= 1 && ele->num[1] <= 0)
-	{
-	/*	while (ele->minus > 1 && ele->num[1] != 0 && ele->num[0]-- > 0) // == 1에서 수정:
-			write(1, "0", 1);*/
-		while (ele->num[0]-- > 0)
-			write(1, " ", 1);
-		if (i != -1)
-			return (i);
-		else
-			return (0);
-	}
+		return (numiszero(i, ele));
 	if (ele->minus >= 5)
 		ele->num[1] = len;
 	if (ele->minus < 5 && ele->num[1] > (int)len)
@@ -72,14 +63,7 @@ int	printf_u_cir(t_ele *ele, unsigned int num, unsigned int len, char *tmp)
 	i = ele->num[0];
 	j = ele->num[1];
 	if (num == 0 && ele->dot > 0 && ele->num[1] < 1)
-	{
-		while (ele->num[0]-- > 0)
-			write(1, " ", 1);
-		if (i != -1)
-			return (i);
-		else
-			return (0);
-	}
+		return (numiszero(i, ele));
 	if (ele->minus == 2)
 		ele->num[1] = len - 1;
 	if (ele->minus != 2 && ele->num[1] > (int)len)
@@ -150,16 +134,7 @@ int	printf_di_minus(va_list ap, t_ele *ele)
 	i = ele->num[0];
 	j = ele->num[1];
 	if (num == 0 && ele->dot >= 1 && ele->num[1] <= 0)
-	{
-		/*while (ele->minus > 1 && ele->num[1] != 0 && ele->num[0]-- > 0)
-			write(1, "0", 1);*/
-		while (ele->num[0]-- > 0)
-			write(1, " ", 1);
-		if (i > 0)
-			return (i);
-		else
-			return (0);
-	}
+		return (numiszero(i, ele));
 	if (ele->minus >= 5)
 		ele->num[1] = len;
 	if (ele->minus != 5 && ele->num[1] > len)
@@ -214,14 +189,7 @@ int	printf_di(va_list ap, t_ele *ele)
     i = ele->num[0];
     j = ele->num[1];
 	if (num == 0 && ele->dot != 0 && ele->num[1] < 1)
-	{
-		while (ele->num[0]-- > 0)
-			write(1, " ", 1);
-		if (i != -1)
-			return (i);
-		else
-			return (0);
-	}
+		return (numiszero(i, ele));
     if (ele->minus == 2) // 음수의 경우, len - 1이 되어야 함.
         ele->num[1] = len - 1;
     if (ele->minus != 2 && ele->num[1] > len)
@@ -245,22 +213,22 @@ int	printf_di(va_list ap, t_ele *ele)
     else
         ele->num[1] = 0;
     while (ele->num[1]-- > 0)
-         write(1, "0", 1);
-     while (ele->dot == 0 && ele->zero == 1 && ele->num[0]-- > 0)
-         write(1, "0", 1);
-     while (ele->zero == 1 && ele->minus == 2 && ele->num[0]-- > 0)
-         write(1, "0", 1);
-     write(1, tmp, len);
-	 len = ft_strlen(tmp);
-     if (num < 0)
-     {
-         len++;
-         j++;
-     }
-     if (i > (int)len && (ele->minus == 2 || i > j))
-         return (i);
-     else if (j < (int)len || ele->minus == 2)
-         return ((int)len);
-     else
-         return (j);
+        write(1, "0", 1);
+    while (ele->dot == 0 && ele->zero == 1 && ele->num[0]-- > 0)
+        write(1, "0", 1);
+    while (ele->zero == 1 && ele->minus == 2 && ele->num[0]-- > 0)
+        write(1, "0", 1);
+    write(1, tmp, len);
+	len = ft_strlen(tmp);
+    if (num < 0)
+    {
+		len++;
+        j++;
+    }
+    if (i > (int)len && (ele->minus == 2 || i > j))
+        return (i);
+    else if (j < (int)len || ele->minus == 2)
+        return ((int)len);
+    else
+        return (j);
 }
