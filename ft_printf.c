@@ -6,39 +6,11 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:26:44 by hyejung           #+#    #+#             */
-/*   Updated: 2021/05/28 19:39:36 by jeonghyeo        ###   ########.fr       */
+/*   Updated: 2021/05/30 22:14:40 by jeonghyeo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-t_ele	reset_elements(void)
-{
-	t_ele	ele;
-
-	ele.minus = 0;
-	ele.num[0] = -1;
-	ele.num[1] = -1;
-	ele.dot = 0;
-	ele.zero = 0;
-	ele.form = 'q';
-	ele.len = 0;
-	return (ele);
-}
-
-t_ele	new_elements(int len)
-{
-	t_ele   ele;
-
-	ele.minus = 0;
-	ele.num[0] = -1;
-	ele.num[1] = -1;
-	ele.dot = 0;
-	ele.zero = 0;
-	ele.form = 'q';
-	ele.len = len;
-	return (ele);
-}
 
 void	star(va_list ap, t_ele *ele)
 {
@@ -83,6 +55,20 @@ int		printf_form(va_list ap, t_ele *ele)
 		return (0);
 }
 
+int		ft_check_num(char *str, int i, t_ele *ele)
+{
+	if (str[i] == '0' && ele->num[0] == -1)
+		ele->zero = 1;
+	if (ele->num[0] == -1)
+		ele->num[0] = ft_atoi(&str[i]);
+	else
+		ele->num[1] = ft_atoi(&str[i]);
+	while (str[i] >= '0' && str[i] <= '9')
+		i++;
+	i--;
+	return (i);
+}
+
 int		ft_check(char *str, int i, t_ele *ele, va_list ap)
 {
 	while (check_form(str[i]) == 0 && str[i] != '%')
@@ -92,21 +78,10 @@ int		ft_check(char *str, int i, t_ele *ele, va_list ap)
 		else if (str[i] == '-')
 		{
 			ele->minus = 1;
-			if (ele->num[0] != -1)
-				ele->num[0] = -1;
+			ele->num[0] = -1;
 		}
 		else if (str[i] >= '0' && str[i] <= '9')
-		{
-			if (str[i] == '0')
-				ele->zero = 1;
-			if (ele->num[0] == -1)
-				(ele->num[0] = ft_atoi(&str[i]));
-			else
-				(ele->num[1] = ft_atoi(&str[i]));
-			while (str[i] >= '0' && str[i] <= '9')
-				i++;
-			i--;
-		}
+			i = ft_check_num(str, i, ele);
 		else if (str[i] == '.')
 			ele->dot = (ele->num[0] == -1 ? 2 : 1);
 		i++;
@@ -120,7 +95,7 @@ int		ft_printf(const char *str, ...)
 {
 	va_list ap;
 	t_ele	ele;
-	int     i;
+	int		i;
 	int		len;
 
 	i = 0;
@@ -134,10 +109,6 @@ int		ft_printf(const char *str, ...)
 			ele = new_elements(len);
 			i++;
 			i = ft_check((char*)str, i, &ele, ap);
-			if (ele.num[0] == -2)
-				ele.num[0] = -1;
-			if (ele.num[1] == -2)
-				ele.num[1] = -1;
 		}
 		else
 		{
@@ -149,13 +120,8 @@ int		ft_printf(const char *str, ...)
 	return (ele.len);
 }
 
-
-
-/*int	main()
+/*int main()
 {
-printf(" --- Return : %d\n", printf("%2.9x", 0));//512
-ft_printf(" --- Return : %d\n", ft_printf("%2.9x", 0));//512
-printf(" --- Return : %d\n", printf(""));//513
-ft_printf(" --- Return : %d\n", ft_printf(""));//513
-
- }*/
+	printf("--%d\n\n", printf("%.*p", -3, 0));
+	ft_printf("--%d\n\n", ft_printf("%.*p", -3, 0));
+}*/

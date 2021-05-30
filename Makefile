@@ -6,22 +6,23 @@
 #    By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/04 11:53:24 by hyejung           #+#    #+#              #
-#    Updated: 2021/05/15 21:37:20 by jeonghyeo        ###   ########.fr        #
+#    Updated: 2021/05/30 22:29:11 by jeonghyeo        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 RM		=	rm -f
 NAME	=	libftprintf.a
 LIBFT	=	libft
-LIBFT_A	=	libft.a
 
 SRCS		= ./ft_printf.c\
 			  ./ft_printf_sc.c\
 			  ./ft_printf_nbr.c\
+			  ./ft_printf_di.c\
 			  ./ft_printf_p.c\
 			  ./ft_printf_x.c\
 			  ./ft_printf_pe.c\
-			  ./ft_func.c
+			  ./ft_func.c\
+			  ./ft_func2.c
 
 OBJS		= $(SRCS:.c=.o)
 INCS		= ./include
@@ -35,7 +36,7 @@ CFLAGS		= -Wall -Wextra -Werror
 
 $(NAME) : $(OBJS)
 	make all -C $(LIBFT)/
-	cp $(LIBFT)/$(LIBFT_A) $(NAME)
+	cp $(LIBFT)/libft.a $(NAME)
 	$(LIBC) $(NAME) $(OBJS)
 
 all		:	$(NAME)

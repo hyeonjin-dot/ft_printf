@@ -6,22 +6,20 @@
 /*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 18:27:32 by hyejung           #+#    #+#             */
-/*   Updated: 2021/05/25 23:05:33 by jeonghyeo        ###   ########.fr       */
+/*   Updated: 2021/05/30 21:17:04 by hyejung          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int		printf_s_dot(char *tmp, t_ele *ele)
+int		printf_s_dot(int len, char *tmp, t_ele *ele)
 {
 	int		i;
-	int		len;
 
-	len = ft_strlen(tmp);
 	if (ele->dot == 2)
 		dot_2(ele);
 	i = ele->num[0];
-	if (ele->minus >= 5)
+	if (ele->minus >= 5 || ele->minus == 2)
 		ele->num[1] = len;
 	if (ele->dot == 1 && ele->num[1] <= 0)
 	{
@@ -29,22 +27,17 @@ int		printf_s_dot(char *tmp, t_ele *ele)
 			write(1, " ", 1);
 		return (i);
 	}
+	else if (ele->num[1] < len && ele->num[1] > 0)
+	{
+		write(1, tmp, ele->num[1]);
+		return (ele->num[1]);
+	}
+	else if (ele->num[1] <= 0)
+		return (0);
 	else
 	{
-		if (ele->num[1] < len && ele->num[1] > 0)
-		{
-			if (ele->minus == 2)
-				ele->num[1] = len;
-			write(1, tmp, ele->num[1]);
-			return (ele->num[1]);
-		}
-		else if (ele->num[1] <= 0)
-			return (0);
-		else
-		{
-			write(1, tmp, len);
-			return ((int)len);
-		}
+		write(1, tmp, len);
+		return ((int)len);
 	}
 }
 
@@ -59,14 +52,10 @@ int		printf_s_minus(va_list ap, t_ele *ele)
 		tmp = "(null)";
 	len = ft_strlen(tmp);
 	if ((ele->dot == 1 && ele->num[1] <= 0) || ele->dot == 2)
-		return (printf_s_dot(tmp, ele));
+		return (printf_s_dot(len, tmp, ele));
 	i = ele->num[0];
-	if (ele->minus > 4)
-		ele->num[1] = len;
-	if (ele->minus <= 3 && ele->num[1] < len && ele->num[1] != -1) //
-		len = ele->num[1]; //
-	//if (ele->minus != 5 && ele->num[1] > len)
-		//ele->num[0] = ele->num[0] - ele->num[1];
+	if (ele->minus <= 3 && ele->num[1] < len && ele->num[1] != -1)
+		len = ele->num[1];
 	ele->num[0] = ele->num[0] - len;
 	write(1, tmp, len);
 	while ((ele->num[0])-- > 0)
@@ -75,6 +64,18 @@ int		printf_s_minus(va_list ap, t_ele *ele)
 		return ((int)len);
 	else
 		return (i);
+}
+
+void	printf_s_space(int len, t_ele *ele)
+{
+	ele->num[0] = ele->num[0] - len;
+	while (ele->num[0]-- > 0)
+	{
+		if (ele->zero == 1)
+			write(1, "0", 1);
+		else
+			write(1, " ", 1);
+	}
 }
 
 int		printf_s(va_list ap, t_ele *ele)
@@ -90,22 +91,11 @@ int		printf_s(va_list ap, t_ele *ele)
 		tmp = "(null)";
 	len = ft_strlen(tmp);
 	if ((ele->dot == 1 && ele->num[1] <= 0) || ele->dot == 2)
-		return (printf_s_dot(tmp, ele));
+		return (printf_s_dot(len, tmp, ele));
 	i = ele->num[0];
 	if (ele->dot == 1 && len > ele->num[1] && ele->minus == 0)
 		len = ele->num[1];
-	if (ele->minus == 2)
-		ele->num[1] = len;
-	//if (ele->minus != 2 && ele->num[1] > len)
-		//len = ele->num[1];
-	ele->num[0] = ele->num[0] - len;
-	while (ele->num[0]-- > 0)
-	{
-		if (ele->zero == 1)
-			write(1, "0", 1);
-		else
-			write(1, " ", 1);
-	}
+	printf_s_space(len, ele);
 	write(1, tmp, len);
 	if (i < (int)len)
 		return ((int)len);
